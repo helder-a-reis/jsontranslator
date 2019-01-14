@@ -5,6 +5,7 @@ from tkinter import filedialog
 from tkinter import ttk
 
 from fileUtils import *
+from terms import *
 
 #initial frame setup
 root = Tk()
@@ -20,7 +21,18 @@ def openSourceFile():
     fullFileName.set(fileToOpen)
     sourceLocale.set(path.splitext(path.basename(fileToOpen))[0])
     sourceDict = getDictFromJSON(fileToOpen)
-    print(sourceDict)
+
+    #print source terms
+    sourceTerms = getListTermsFromDict(sourceDict)
+    i=1
+    for term in sourceTerms:
+        #ttk.Label(sourceFrame, text=key).grid(column=1, row=1)
+        print("new term: " + term.key + " " + term.word)
+        ttk.Label(keyFrame, text=term.key).grid(column=1, row=i, sticky=W)
+        ttk.Label(sourceFrame, text=term.word).grid(column=1, row=i, sticky=W)
+        i=i+1
+
+    
     
 #variables    
 fullFileName = StringVar()
@@ -43,13 +55,15 @@ contentFrame.grid(column=0, row=1, sticky=(N, W, E, S))
 
 contentPane = ttk.Panedwindow(contentFrame, orient=HORIZONTAL)
 
-keyFrame = ttk.LabelFrame(contentPane, text="key", width=100, height=200)
+keyFrame = ttk.LabelFrame(contentPane, text="key", width=200, height=100)
 contentPane.add(keyFrame)
-sourceFrame = ttk.LabelFrame(contentPane, text="source", width=100, height=200)
+sourceFrame = ttk.LabelFrame(contentPane, text="source", width=300, height=100)
 contentPane.add(sourceFrame)
-targetFrame = ttk.LabelFrame(contentPane, text="target", width=100, height=200)
+targetFrame = ttk.LabelFrame(contentPane, text="target", width=300, height=100)
 contentPane.add(targetFrame)
 contentPane.grid(column=1, row=4)
+
+
 
 
 #show
