@@ -4,6 +4,7 @@ class Term:
         self.key = key
         self.word = word
 
+
 def getListTermsFromDict(dictToParse):
     terms = []
 
@@ -21,3 +22,13 @@ def getListTermsFromDict(dictToParse):
     return terms
 
 
+#updates the key(s) in dict with newValue
+def translateInDict(dict, key, newValue):
+    for key, value in dict.items():
+        #if the value itself is a dictionary do a recursive call
+        if isinstance(value, dict):
+            translateInDict(value, key, newValue)
+        else:
+            dict[key] = newValue
+    
+    return dict
