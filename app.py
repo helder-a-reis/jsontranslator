@@ -15,7 +15,6 @@ mainframe.grid(column=0, row=0, sticky=(N, W, E, S))
 root.columnconfigure(0, weight=1)
 root.rowconfigure(0, weight=1)
     
-
 #app variables    
 supportedLocales = {'en_US', 'es_ES', 'fr_FR', 'it_IT'}
 
@@ -29,27 +28,31 @@ targetFileName = StringVar()
 targetLocale = StringVar()
 targetDict = {}
 
+entry = {}
+
+#list of terms with key, source and target
+terms = []
+
+#workflow: 1) open source file 2) create term list with key and source 3) open target file (create if new) 4) populate term list target 5) show all 6) save targets
+
 def openSourceFile():
+    global terms
     #returns the file name, NOT the file
     fileToOpen = filedialog.askopenfilename(filetypes=[("JSON", "*.json")])
     sourceFileName.set(fileToOpen)
     sourceLocale.set(path.splitext(path.basename(fileToOpen))[0])
-    sourceDict = getDictFromJSON(fileToOpen)
-
-    #populate source terms
-    sourceTerms = getListTermsFromDict(sourceDict)
-    i=1
-    for term in sourceTerms:
-        ttk.Label(keyFrame, text=term.key).grid(column=1, row=i, sticky=W)
-        ttk.Label(sourceFrame, text=term.word).grid(column=1, row=i, sticky=W)
-        i=i+1
-
     #remove source locale from options
     supportedLocales.remove(sourceLocale.get())
     TargetDrop
 
+    #load json content as dict
+    sourceDict = getDictFromJSON(fileToOpen)
+    #populate list of terms with key and source
+    terms = initializeTerms(sourceDict)
+       
 
 def openTargetFile():
+    global targetDict
     targetFileName.set(sourceFileName.get().replace(sourceLocale.get(), targetLocale.get()))
     #if file doesn't exist then create it first
     try:
@@ -57,22 +60,30 @@ def openTargetFile():
     except:
             duplicateFile(sourceFileName.get(), targetLocale.get())
             targetDict = getDictFromJSON(targetFileName.get())
-    
-    #populate source terms
-    targetTerms = getListTermsFromDict(targetDict)
-    entry = {}
+
+    addTargetToTerms(terms, targetDict)
+    populateContent(terms)
+
+
+def populateContent(terms):
     i=1
-    for term in targetTerms:
-        #ttk.Entry(targetFrame, textvariable=term.word).grid(column=1, row=i, sticky=W)
-        e = ttk.Entry(targetFrame)
-        e.grid(column=1, row=i, sticky=W)
-        entry[term] = e
-        e.insert(0, term.word)
+
+    for term in terms:
+        ttk.Label(contentFrame, text=term.key).grid(column=1, row=i, sticky=W)
+        ttk.Label(contentFrame, text=term.source).grid(column=2, row=i, sticky=W)
+        e = ttk.Entry(contentFrame)
+        e.grid(column=3, row=i, sticky=W)
+        entry[term.key] = e
+        e.insert(0, term.target)
 
         i=i+1
 
+
 def saveTarget():
-    print("Saving")
+    #update targets
+    global targetDict
+    for term in terms:
+        translateInDict(targetDict, term.key, entry[term.key].get())
     saveDictToJSON(targetDict, targetFileName.get())
 
 def quit():
@@ -98,15 +109,6 @@ ttk.Button(controlFrame, text="Go!", command=openTargetFile).grid(column=3, row=
 contentFrame = ttk.Frame(mainframe)
 contentFrame.grid(column=0, row=1, sticky=(N, W, E, S))
 
-contentPane = ttk.Panedwindow(contentFrame, orient=HORIZONTAL)
-
-keyFrame = ttk.LabelFrame(contentPane, text="key", width=200, height=100)
-contentPane.add(keyFrame)
-sourceFrame = ttk.LabelFrame(contentPane, text="source", width=300, height=100)
-contentPane.add(sourceFrame)
-targetFrame = ttk.LabelFrame(contentPane, text="target", width=300, height=100)
-contentPane.add(targetFrame)
-contentPane.grid(column=1, row=4)
 
 #action section
 actionFrame = ttk.Frame(mainframe)
