@@ -1,6 +1,6 @@
 
 class Term:
-    #initialize a termwith key and source
+    #initialize a term with key and source
     def __init__(self, key, source):
         self.key = key
         self.source = source
@@ -9,6 +9,7 @@ class Term:
     def __str__(self):
         return self.key
 
+#initialize a list of terms with a source dictionary
 def initializeTerms(sourceDict):
     terms = []
 
@@ -25,9 +26,8 @@ def initializeTerms(sourceDict):
 
     return terms
 
-
+#adds targets from a dictionary to a list of terms
 def addTargetToTerms(terms, targetDict):
-    
     def addTarget(targetDict):
         for key, value in targetDict.items():
             if isinstance(value, dict):
@@ -44,12 +44,13 @@ def addTargetToTerms(terms, targetDict):
 
     return terms
 
+#updates target dictionary from a list of terms
 def updateDict(terms, targetDict):
     for term in terms:
         targetDict = translateInDict(targetDict, term.key, term.target)
     return targetDict
 
-#updates the key(s) in dict with newValue
+#updates a value in a dictinary
 def translateInDict(targetDict, updateKey, updateValue):
     for key, value in targetDict.items():
         #if the value itself is a dictionary do a recursive call
