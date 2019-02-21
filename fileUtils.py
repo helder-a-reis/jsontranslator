@@ -3,7 +3,7 @@ from shutil import copyfile
 from os import path
 
 def getDictFromJSON(jsonFileName):
-    jsonFile=open(jsonFileName).read()
+    jsonFile=open(jsonFileName, encoding='utf-8').read()
     dict = json.loads(jsonFile)
     return dict
 
