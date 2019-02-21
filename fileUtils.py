@@ -11,5 +11,5 @@ def saveDictToJSON(dict, jsonFileName):
     with open(jsonFileName, 'w', encoding='utf-8') as outfile:
         json.dump(dict, outfile, indent = 4, ensure_ascii=False)
 
-def duplicateFile(sourceFileName, targetLocale):
-    return copyfile(sourceFileName, targetLocale+path.splitext(sourceFileName)[1])
+def duplicateFile(sourceFileName, targetFileName):
+    return copyfile(sourceFileName, targetFileName)

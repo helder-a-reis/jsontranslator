@@ -58,7 +58,7 @@ def openTargetFile():
     try:
             targetDict = getDictFromJSON(targetFileName.get())
     except:
-            duplicateFile(sourceFileName.get(), targetLocale.get())
+            duplicateFile(sourceFileName.get(), targetFileName.get())
             targetDict = getDictFromJSON(targetFileName.get())
 
     addTargetToTerms(terms, targetDict)
@@ -66,8 +66,11 @@ def openTargetFile():
 
 
 def populateContent(terms):
-    i=1
+    ttk.Label(contentFrame, text="Key", font='bold').grid(column=1, row=0, sticky=W)
+    ttk.Label(contentFrame, text="Source", font='bold').grid(column=2, row=0, sticky=W)
+    ttk.Label(contentFrame, text="Target", font='bold').grid(column=3, row=0, sticky=W)
 
+    i=1
     for term in terms:
         ttk.Label(contentFrame, text=term.key).grid(column=1, row=i, sticky=W)
         ttk.Label(contentFrame, text=term.source).grid(column=2, row=i, sticky=W)
