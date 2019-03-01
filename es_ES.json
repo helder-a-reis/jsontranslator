@@ -1,12 +1,12 @@
 {
-    "user" :  {
+    "user" : {
       "FirstName" : "Nombre",
-      "MiddleName" :  "Primer Apellido",
-      "FamilyName" :  "Segundo Apellido",
-      "Age" :  "Edad",
-      "City" :  "Cuidad",
-      "Gender": "Género"
-      "SaveRecord":"Guardar",
-      "CancelRecord":"Cancelar",
+      "MiddleName" : "Primer Apellido",
+      "FamilyName" : "Segundo Apellido",
+      "Age" : "Edad",
+      "City" : "Cuidad",
+      "Gender" : "Género"
+      "SaveRecord" : "Guardar",
+      "CancelRecord" : "Cancelar",
     }
 }
