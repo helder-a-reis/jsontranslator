@@ -1,0 +1,12 @@
+{
+    "user" :  {
+      "FirstName" : "Given Name",
+      "MiddleName" :  "Middle Name",
+      "FamilyName" :  "Last Name",
+      "Age" :  "Age",
+      "City" :  "City",
+      "Gender": "Gender",
+      "SaveRecord":"Save",
+      "CancelRecord":"Cancel"
+    }
+}
