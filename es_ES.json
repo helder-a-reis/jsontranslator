@@ -1,29 +1,12 @@
 {
-    "composition": {
-        "SubjectiveSection": "Subjectivo",
-        "ObjectiveSection": "Objectivo",
-        "AssessmentSection": "Assessmento",
-        "PlanSection": "Plan",
-        "HPISection": "HPI",
-        "ChargeCaptureSection": "Charge capture",
-        "SocialHistorySection": "Social history",
-        "VisitDetailsSection": "Visit details",
-        "ProblemListSection": "Problem list",
-        "FamilyHistorySection": "Family history",
-        "ExamSection": "Exam",
-        "MedicationsSection": "Medications",
-        "ROSSection": "ROS",
-        "OrdersSection": "Orders",
-        "AllergiesSection": "Allergies",
-        "ChiefCompliant": "Chief compliant",
-        "VitalSection": "Vitals",
-        "next": "Next",
-        "back": "Back",
-        "close": "Close",
-        "finalize": "Finalize",
-        "finalizeConfirmationHeader": "Encounter Finalization",
-        "finalizeConfirmationText": "Are you sure to finalize this encounter?",
-        "finalizeConfirmationOk": "Ok",
-        "finalizeConfirmationCancel": "Cancelar"
+    "user" : {
+      "FirstName" : "Nombre",
+      "MiddleName" : "Primer Apellido",
+      "FamilyName" : "Segundo Apellido",
+      "Age" : "Edad",
+      "City" : "Cuidad",
+      "Gender" : "Género"
+      "SaveRecord" : "Guardar",
+      "CancelRecord" : "Cancelar",
     }
 }
