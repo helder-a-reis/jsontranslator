@@ -16,8 +16,7 @@ root.columnconfigure(0, weight=1)
 root.rowconfigure(0, weight=1)
     
 #app variables    
-allLocales = {'en_US', 'es_ES', 'fr_FR', 'it_IT'}
-supportedLocales = allLocales.copy()
+targetLocales = ()
 
 sourceFileName = StringVar()
 sourceFileName.set("None")
@@ -42,10 +41,11 @@ def openSourceFile():
     fileToOpen = filedialog.askopenfilename(filetypes=[("JSON", "*.json")])
     sourceFileName.set(fileToOpen)
     sourceLocale.set(path.splitext(path.basename(fileToOpen))[0])
-    #remove source locale from options - NOT WORKING
-    supportedLocales = allLocales.copy()    
-    supportedLocales.remove(sourceLocale.get())
-    targetDrop.set_menu(*supportedLocales)
+
+    #populate target options
+    targetLocales = getSiblingFileNames(sourceFileName.get())
+    targetLocales.remove(sourceLocale.get())
+    targetDrop.set_menu(*targetLocales)
 
     #load json content as dict
     sourceDict = getDictFromJSON(fileToOpen)
@@ -105,7 +105,7 @@ ttk.Label(controlFrame, textvariable=sourceFileName).grid(column=3, row=1, stick
 
 #target
 ttk.Label(controlFrame, text="2. Select target language").grid(column=1, row=2, sticky=W)
-targetDrop = ttk.OptionMenu(controlFrame, targetLocale, *supportedLocales)
+targetDrop = ttk.OptionMenu(controlFrame, targetLocale, *targetLocales)
 targetDrop.grid(column=2, row=2, sticky=E)
 ttk.Button(controlFrame, text="Go!", command=openTargetFile).grid(column=3, row=2, sticky=W)
 

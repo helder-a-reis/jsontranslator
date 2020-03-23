@@ -5,8 +5,8 @@
       "FamilyName" : "Segundo Apellido",
       "Age" : "Edad",
       "City" : "Cuidad",
-      "Gender" : "Género"
+      "Gender" : "Género",
       "SaveRecord" : "Guardar",
-      "CancelRecord" : "Cancelar",
+      "CancelRecord" : "Cancelar"
     }
 }
