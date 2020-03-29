@@ -21,8 +21,7 @@ def getSiblingFileNames(sourceFile):
     theFolder = path.dirname(sourceFile)
     files = []
     for f in listdir(theFolder):
-        if isfile:
-            print(f)
+        if isfile:            
             files.append(path.splitext(path.basename(f))[0])
 
     return files
