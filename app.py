@@ -37,6 +37,7 @@ terms = []
 
 def openSourceFile():
     global terms
+    global sourceDict
     #returns the file name, NOT the file
     fileToOpen = filedialog.askopenfilename(filetypes=[("JSON", "*.json")])
     sourceFileName.set(fileToOpen)
@@ -56,13 +57,8 @@ def openSourceFile():
 def openTargetFile():
     global targetDict
     targetFileName.set(sourceFileName.get().replace(sourceLocale.get(), targetLocale.get()))
-    #if file doesn't exist then create it first
-    try:
-            targetDict = getDictFromJSON(targetFileName.get())
-    except:
-            duplicateFile(sourceFileName.get(), targetFileName.get())
-            targetDict = getDictFromJSON(targetFileName.get())
-
+    targetDict = getDictFromJSON(targetFileName.get())
+    
     addTargetToTerms(terms, targetDict)
     populateContent(terms)
 
@@ -85,11 +81,13 @@ def populateContent(terms):
 
 
 def saveTarget():
-    #update targets
-    global targetDict
+    global sourceDict
+    global terms   
+    # make a copy of the source dict just with keys
+    newTargetDict = cleanDict(terms, sourceDict)
     for term in terms:
-        translateInDict(targetDict, term.key, entry[term.key].get())
-    saveDictToJSON(targetDict, targetFileName.get())
+        translateInDict(newTargetDict, term.key, entry[term.key].get())
+    saveDictToJSON(newTargetDict, targetFileName.get())
 
 def quit():
     root.destroy()

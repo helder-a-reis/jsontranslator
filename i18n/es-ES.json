@@ -1,12 +1,16 @@
 {
-    "user" : {
-      "FirstName" : "Nombre",
-      "MiddleName" : "Primer Apellido",
-      "FamilyName" : "Segundo Apellido",
-      "Age" : "Edad",
-      "City" : "Cuidad",
-      "Gender" : "Género",
-      "SaveRecord" : "Guardar",
-      "CancelRecord" : "Cancelar"
+    "user": {
+        "FirstName": "Nombre",
+        "MiddleName": "Primer apellido",
+        "FamilyName": "Segundo Apellido",
+        "Age": "Edad",
+        "City": "Ciudad",
+        "Gender": "Sexo",
+        "SaveRecord": "Guardar",
+        "CancelRecord": "Cancelar"
+    },
+    "animals": {
+        "dog": "",
+        "cat": ""
     }
 }

@@ -8,5 +8,9 @@
       "Gender": "Gender",
       "SaveRecord":"Save",
       "CancelRecord":"Cancel"
+    },
+    "animals": {
+      "dog": "Dog",
+      "cat": "Cat"
     }
 }
