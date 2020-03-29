@@ -9,8 +9,5 @@
         "SaveRecord": "Gravar",
         "CancelRecord": "Cancelar"
     },
-    "animals": {
-        "dog": "",
-        "cat": ""
-    }
+    "animals": {}
 }
