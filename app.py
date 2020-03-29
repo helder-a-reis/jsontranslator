@@ -16,8 +16,7 @@ root.columnconfigure(0, weight=1)
 root.rowconfigure(0, weight=1)
     
 #app variables    
-allLocales = {'en_US', 'es_ES', 'fr_FR', 'it_IT'}
-supportedLocales = allLocales.copy()
+targetLocales = ()
 
 sourceFileName = StringVar()
 sourceFileName.set("None")
@@ -38,14 +37,16 @@ terms = []
 
 def openSourceFile():
     global terms
+    global sourceDict
     #returns the file name, NOT the file
     fileToOpen = filedialog.askopenfilename(filetypes=[("JSON", "*.json")])
     sourceFileName.set(fileToOpen)
     sourceLocale.set(path.splitext(path.basename(fileToOpen))[0])
-    #remove source locale from options - NOT WORKING
-    supportedLocales = allLocales.copy()    
-    supportedLocales.remove(sourceLocale.get())
-    targetDrop.set_menu(*supportedLocales)
+
+    #populate target options
+    targetLocales = getSiblingFileNames(sourceFileName.get())
+    targetLocales.remove(sourceLocale.get())
+    targetDrop.set_menu(*targetLocales)
 
     #load json content as dict
     sourceDict = getDictFromJSON(fileToOpen)
@@ -56,13 +57,8 @@ def openSourceFile():
 def openTargetFile():
     global targetDict
     targetFileName.set(sourceFileName.get().replace(sourceLocale.get(), targetLocale.get()))
-    #if file doesn't exist then create it first
-    try:
-            targetDict = getDictFromJSON(targetFileName.get())
-    except:
-            duplicateFile(sourceFileName.get(), targetFileName.get())
-            targetDict = getDictFromJSON(targetFileName.get())
-
+    targetDict = getDictFromJSON(targetFileName.get())
+    
     addTargetToTerms(terms, targetDict)
     populateContent(terms)
 
@@ -85,11 +81,13 @@ def populateContent(terms):
 
 
 def saveTarget():
-    #update targets
-    global targetDict
+    global sourceDict
+    global terms   
+    # make a copy of the source dict just with keys
+    newTargetDict = cleanDict(terms, sourceDict)
     for term in terms:
-        translateInDict(targetDict, term.key, entry[term.key].get())
-    saveDictToJSON(targetDict, targetFileName.get())
+        translateInDict(newTargetDict, term.key, entry[term.key].get())
+    saveDictToJSON(newTargetDict, targetFileName.get())
 
 def quit():
     root.destroy()
@@ -105,7 +103,7 @@ ttk.Label(controlFrame, textvariable=sourceFileName).grid(column=3, row=1, stick
 
 #target
 ttk.Label(controlFrame, text="2. Select target language").grid(column=1, row=2, sticky=W)
-targetDrop = ttk.OptionMenu(controlFrame, targetLocale, *supportedLocales)
+targetDrop = ttk.OptionMenu(controlFrame, targetLocale, *targetLocales)
 targetDrop.grid(column=2, row=2, sticky=E)
 ttk.Button(controlFrame, text="Go!", command=openTargetFile).grid(column=3, row=2, sticky=W)
 

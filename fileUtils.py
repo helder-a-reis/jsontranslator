@@ -1,6 +1,7 @@
 import json
 from shutil import copyfile
-from os import path
+from os import path, listdir
+from os.path import isfile
 
 def getDictFromJSON(jsonFileName):
     jsonFile=open(jsonFileName, encoding='utf-8').read()
@@ -13,3 +14,15 @@ def saveDictToJSON(dict, jsonFileName):
 
 def duplicateFile(sourceFileName, targetFileName):
     return copyfile(sourceFileName, targetFileName)
+
+# returns a list of file names in the same folder as given file without extension
+# user is responsible to ensure all files in folder are translation files
+def getSiblingFileNames(sourceFile):
+    theFolder = path.dirname(sourceFile)
+    files = []
+    for f in listdir(theFolder):
+        if isfile:
+            print(f)
+            files.append(path.splitext(path.basename(f))[0])
+
+    return files

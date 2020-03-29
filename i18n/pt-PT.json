@@ -1,0 +1,16 @@
+{
+    "user": {
+        "FirstName": "Nome",
+        "MiddleName": "Segundo nome",
+        "FamilyName": "Apelido",
+        "Age": "Idade",
+        "City": "Localidade",
+        "Gender": "Género",
+        "SaveRecord": "Gravar",
+        "CancelRecord": "Cancelar"
+    },
+    "animals": {
+        "dog": "",
+        "cat": ""
+    }
+}

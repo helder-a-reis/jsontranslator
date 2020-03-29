@@ -50,6 +50,12 @@ def updateDict(terms, targetDict):
         targetDict = translateInDict(targetDict, term.key, term.target)
     return targetDict
 
+#updates dictionary with empty values
+def cleanDict(terms, targetDict):
+    for term in terms:
+        targetDict = translateInDict(targetDict, term.key, '')
+    return targetDict
+
 #updates a value in a dictinary
 def translateInDict(targetDict, updateKey, updateValue):
     for key, value in targetDict.items():
