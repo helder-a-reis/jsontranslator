@@ -87,6 +87,9 @@ def saveTarget():
     newTargetDict = cleanDict(terms, sourceDict)
     for term in terms:
         translateInDict(newTargetDict, term.key, entry[term.key].get())
+
+    # remove empty values
+    newTargetDict = removeEmpties(newTargetDict)
     saveDictToJSON(newTargetDict, targetFileName.get())
 
 def quit():

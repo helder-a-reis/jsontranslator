@@ -7,3 +7,6 @@ Run app.py to launch.
 1. Select a source file
 2. Select a target locale
 3. Save your changes
+
+## Create an exe
+To create an exe use pyinstaller, run "pyinstaller jsontranslator.py -F"
