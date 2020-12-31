@@ -3,7 +3,7 @@
         "FirstName": "Nombre",
         "MiddleName": "Primer apellido",
         "FamilyName": "Segundo Apellido",
-        "Age": "Edad",
+        "Age": "Edad del usuario",
         "SaveRecord": "Guardar",
         "CancelRecord": "Cancelar",
         "City": "Ciudad",

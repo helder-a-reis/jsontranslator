@@ -1,18 +1,21 @@
-# jsontranslator
-Desktop application for finding and translating JSON language files in a web project. Built with Python and TkInter.
+# JSON translator
+Desktop application for translating JSON language files, for instance in a web project. Built with Python and PySimpleGUI.
 
 ## Create an exe
 To create an exe use pyinstaller, run "pyinstaller jsontranslator.py -F"
 
 ## Usage
-The program allows you to translate a json file by seeing its source and target files side by side.
+The program allows you to translate a json file (target file) based on another one (source file).
 
-It was primarily designed to translate json files in an Angular project, so it expects a structure of one json files per language all located in the same folder (for example a i18n folder with en.json, pt-PT.json, de-DE.json, etc).
-
-The system finds all files in the same folder as the source file - user is responsible to ensure all are json translation files.
+It was primarily designed to translate json files in an Angular project but should work with any 2 json file, as long as they have the same keys.
 
 Run jsontranslator.py to launch from code or use the compiled jsontranslator.exe
 1. Select a source file
 2. Select a target locale
-3. Save your changes
+3. Enter a translation for the target
+4. Click "Save" or "Save and Next"
+
+## Notes
+There's no undo, it's assumed you have your files under version control.
+This is a side project, I update it when I have some spare time. If you use it please do report bugs and ideas for improvement! PRs welcome.
 
