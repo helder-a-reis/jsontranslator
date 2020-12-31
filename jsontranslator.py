@@ -39,8 +39,8 @@ left_col = [[keyList]]
 
 sourceLocale = sg.Text(text='Source', key='-SOURCELOCALE-', size=(6, 1))
 targetLocale = sg.Text(text='Target', key='-TARGETLOCALE-', size=(6, 1))
-sourceText = sg.Multiline(key=('-SOURCETEXT-'), disabled=True)
-targetText = sg.Multiline(key=('-TARGETTEXT-'))
+sourceText = sg.Multiline(key=('-SOURCETEXT-'), disabled=True, size=(30, 5))
+targetText = sg.Multiline(key=('-TARGETTEXT-'), size=(30, 5))
 right_col = [
     [sourceLocale, sourceText],
     [targetLocale, targetText, sg.Button(button_text='Save', enable_events=True, key='-SAVE-')],
@@ -99,7 +99,8 @@ while True:
             updateTarget()
 
     if event == 'Usage':
-        sg.PopupOK('Choose a source file, then a target file, click on a key, translate target, save', title='How to use this program', grab_anywhere=True)
+        sg.PopupOK('Choose a source file, then a target file, click on a key, translate target, save. If a locale does not exist yet simply create a new empty json file.', 
+        title='How to use this program', grab_anywhere=True)
 
     if event == 'About':
         sg.PopupOK('Developed by Helder Reis, view source at https://github.com/helder-a-reis/jsontranslator', title='About')

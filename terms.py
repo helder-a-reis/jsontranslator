@@ -1,16 +1,5 @@
 from contextlib import suppress
 
-class Term:
-    #initialize a term with key and source
-    def __init__(self, key, source):
-        self.key = key
-        self.source = source
-        self.target = ""
-
-    def __str__(self):
-        return self.key
-
-
 #removes elements with empty values
 def removeEmpties(aDict):
     # keys to delete
