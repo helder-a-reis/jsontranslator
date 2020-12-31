@@ -1,5 +1,6 @@
 import PySimpleGUI as sg
 import json_flatten as jf
+import webbrowser
 from fileUtils import *
 from terms import *
 
@@ -25,17 +26,17 @@ def saveTarget():
     saveDictToJSON(removeEmpties(targetDict), targetFile.get())
 
 # --------------------------------- Define Layout ---------------------------------
-# inner layout with 2 columns
 keyList = sg.Listbox(values=[], enable_events=True, size=(40,20), key='-KEYS-', select_mode="LISTBOX_SELECT_MODE_SINGLE")
 
-sourceFile = sg.In(size=(25,1), enable_events=True, key='-SOURCE-')
-targetFile = sg.In(size=(25,1), enable_events=True, key='-TARGET-')
-left_col = [
-    [sg.Text('Source file'), sourceFile, sg.FileBrowse(button_text='Choose', file_types=(('JSON Files', '*.json'),))],
-    [sg.Text('Target file'), targetFile, sg.FileBrowse(button_text='Choose', file_types=(('JSON Files', '*.json'),))],
-    [keyList]]
+sourceFile = sg.In(size=(40,1), enable_events=True, key='-SOURCE-')
+targetFile = sg.In(size=(40,1), enable_events=True, key='-TARGET-')
+header = [
+    [sg.Text('Source file', size=(10, 1)), sourceFile, sg.FileBrowse(button_text='Choose', file_types=(('JSON Files', '*.json'),))],
+    [sg.Text('Target file', size=(10, 1)), targetFile, sg.FileBrowse(button_text='Choose', file_types=(('JSON Files', '*.json'),))],
+    ]
 
-#startTranslationLayout = [[sg.Text('Choose a source file and key to see translations')]]
+left_col = [[keyList]]
+
 sourceLocale = sg.Text(text='Source', key='-SOURCELOCALE-', size=(6, 1))
 targetLocale = sg.Text(text='Target', key='-TARGETLOCALE-', size=(6, 1))
 sourceText = sg.Multiline(key=('-SOURCETEXT-'), disabled=True)
@@ -46,8 +47,13 @@ right_col = [
     [sg.Button(button_text='Save and Next', enable_events=True, key='-SAVEANDNEXT-')]
     ]
 
+menu_def = [['Help', ['Usage', 'About']]]
 # ----- Full layout -----
-layout = [[sg.Column(left_col), sg.VSeperator(), sg.Column(right_col, vertical_alignment='top')]]
+layout = [
+    [sg.Menu(menu_def)],
+    [sg.Column(header)],
+    [sg.Column(left_col), sg.VSeperator(), sg.Column(right_col, vertical_alignment='top')]
+    ]
 
 # --------------------------------- Create Window ---------------------------------
 window = sg.Window('JSON Translator', layout)
@@ -92,7 +98,11 @@ while True:
             updateSource()
             updateTarget()
 
+    if event == 'Usage':
+        sg.PopupOK('Choose a source file, then a target file, click on a key, translate target, save', title='How to use this program', grab_anywhere=True)
 
+    if event == 'About':
+        sg.PopupOK('Developed by Helder Reis, view source at https://github.com/helder-a-reis/jsontranslator', title='About')
 # --------------------------------- Close & Exit ---------------------------------
 
 window.close()
