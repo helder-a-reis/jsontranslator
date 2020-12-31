@@ -1,5 +1,15 @@
 from contextlib import suppress
 
+class Translation:
+    def __init__(self, locale):
+        self.locale = locale
+        self.terms = {}
+
+    def __init__(self, locale, terms):
+        self.locale = locale
+        self.terms = terms
+
+
 class Term:
     #initialize a term with key and source
     def __init__(self, key, source):
@@ -26,6 +36,19 @@ def initializeTerms(sourceDict):
     addTerm(sourceDict)
 
     return terms
+
+def extractKeys(sourceDict):
+    keys = []
+    def addKey(sourceDict):
+        for key, value in sourceDict.items():
+            if isinstance(value, dict):
+                addKey(value)
+            else:
+                keys.append(key)
+    
+    addKey(sourceDict)
+    
+    return keys
 
 #adds targets from a dictionary to a list of terms
 def addTargetToTerms(terms, targetDict):
@@ -97,3 +120,17 @@ def translateInDict(targetDict, updateKey, updateValue):
                 targetDict[key] = updateValue
                 break
     return targetDict
+
+# returns a translation for a key in a dictionary or None if not present
+def getTermInDict(theDict, searchKey):
+    found = None
+
+    def findTerm(theDict, searchKey):
+        for key, value in theDict.items():
+            if isinstance(value, dict):
+                findTerm(value, searchKey)
+            else:
+                if key == searchKey:
+                    return value
+    
+    return findTerm(theDict, searchKey)

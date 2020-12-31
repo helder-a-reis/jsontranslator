@@ -25,3 +25,6 @@ def getSiblingFileNames(sourceFile):
             files.append(path.splitext(path.basename(f))[0])
 
     return files
+
+def getLocaleFromFileName(fileName):
+    return path.splitext(path.basename(fileName))[0]
