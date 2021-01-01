@@ -47,7 +47,7 @@ right_col = [
     [sg.Button(button_text='Save and Next', enable_events=True, key='-SAVEANDNEXT-')]
     ]
 
-menu_def = [['Help', ['Usage', 'About']]]
+menu_def = [['Help', ['Usage', 'About', 'Github']]]
 # ----- Full layout -----
 layout = [
     [sg.Menu(menu_def)],
@@ -103,7 +103,11 @@ while True:
         title='How to use this program', grab_anywhere=True)
 
     if event == 'About':
-        sg.PopupOK('Developed by Helder Reis, view source at https://github.com/helder-a-reis/jsontranslator', title='About')
+        sg.PopupOK('Developed by Helder Reis', title='About')
+
+    if event == 'Github':
+        webbrowser.open_new_tab('https://github.com/helder-a-reis/jsontranslator')
+
 # --------------------------------- Close & Exit ---------------------------------
 
 window.close()
