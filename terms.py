@@ -27,3 +27,10 @@ def removeEmpties(aDict):
     delete_keys_from_dict(aDict, keys)
 
     return aDict   
+
+def getKeysMissingTarget(sourceDict, targetDict):
+    keys = []
+    for key, value in sourceDict.items():
+        if targetDict.get(key) == None or targetDict.get(key) == '':
+            keys.append(key)
+    return keys

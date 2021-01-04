@@ -10,7 +10,7 @@
         "CancelRecord": "Cancelar"
     },
     "animals": {
-        "dog": "cão",
-        "cat": "Gato"
+        "cat": "gato",
+        "dog": "gato"
     }
 }

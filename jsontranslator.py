@@ -24,9 +24,9 @@ def saveTarget():
     # save target file
     targetDict = jf.unflatten(targetDictFlat)
     saveDictToJSON(removeEmpties(targetDict), targetFile.get())
+    
 
 # --------------------------------- Define Layout ---------------------------------
-keyList = sg.Listbox(values=[], enable_events=True, size=(50,30), key='-KEYS-', select_mode="LISTBOX_SELECT_MODE_SINGLE")
 
 sourceFile = sg.In(size=(60,1), enable_events=True, key='-SOURCE-')
 targetFile = sg.In(size=(60,1), enable_events=True, key='-TARGET-')
@@ -35,7 +35,10 @@ header = [
     [sg.Text('Target file', size=(10, 1)), targetFile, sg.FileBrowse(button_text='Choose', file_types=(('JSON Files', '*.json'),))],
     ]
 
-left_col = [[keyList]]
+keyList = sg.Listbox(values=[], enable_events=True, size=(50,30), key='-KEYS-', select_mode="LISTBOX_SELECT_MODE_SINGLE")
+missingCheck = sg.Checkbox('Show only missing translations', enable_events=True, key='-MISSING-')
+left_col = [[missingCheck],
+    [keyList]]
 
 sourceLocale = sg.Text(text='Source', key='-SOURCELOCALE-', size=(6, 1))
 targetLocale = sg.Text(text='Target', key='-TARGETLOCALE-', size=(6, 1))
@@ -86,6 +89,12 @@ while True:
             # populate target
             updateTarget()
             targetText.set_focus()
+    
+    if event == '-MISSING-':
+        if missingCheck.get() == 1:
+            keyList.update(values=getKeysMissingTarget(sourceDictFlat, targetDictFlat))
+        else:
+            keyList.update(values=list(sourceDictFlat.keys()))
 
     if event == '-SAVE-':
         saveTarget()
