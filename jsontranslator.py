@@ -50,10 +50,14 @@ sourceLocale = sg.Text(text='Source', key='-SOURCELOCALE-', size=(6, 1))
 targetLocale = sg.Text(text='Target', key='-TARGETLOCALE-', size=(6, 1))
 sourceText = sg.Multiline(key=('-SOURCETEXT-'), disabled=True, size=(50, 8))
 targetText = sg.Multiline(key=('-TARGETTEXT-'), size=(50, 8), enable_events=True)
+saveButton = sg.Button(button_text='Save', enable_events=True, key='-SAVE-')
+saveAndNextButton = sg.Button(button_text='Save and Next', enable_events=True, key='-SAVEANDNEXT-')
+autoSaveCheck = sg.Checkbox('Auto save changes as you type', enable_events=True, key='-AUTOSAVE-')
 right_col = [
     [sourceLocale, sourceText],
     [targetLocale, targetText],
-    [sg.Button(button_text='Save', enable_events=True, key='-SAVE-'), sg.Button(button_text='Save and Next', enable_events=True, key='-SAVEANDNEXT-')]
+    [saveButton, saveAndNextButton],
+    [autoSaveCheck]
     ]
 
 menu_def = [['Help', ['Usage', 'About', 'Github']]]
@@ -88,7 +92,12 @@ while True:
         targetLocale.update(value=getLocaleFromFileName(targetFile.get()), visible=True)
 
     if event == '-TARGETTEXT-':
-        unsavedChanges = True
+        # auto save every time user types
+        if autoSaveCheck.get() == 1:
+            saveTarget()
+            unsavedChanges = False
+        else:
+            unsavedChanges = True
 
     # key on the list clicked
     if event == '-KEYS-':       
@@ -125,6 +134,18 @@ while True:
             updateSource()
             updateTarget()
         unsavedChanges = False
+
+    if event == '-AUTOSAVE-':
+        if autoSaveCheck.get() == 1:
+            if (sg.PopupOKCancel('This will save the json file as you type, changes can not be undone - proceed?')) == 'OK':
+                # disable save buttons
+                saveButton.Update(disabled=True)
+                saveAndNextButton.Update(disabled=True)
+            else:
+                autoSaveCheck.Update(value=False)
+        else:
+            saveButton.Update(disabled=False)
+            saveAndNextButton.Update(disabled=False)
 
     if event == 'Usage':
         sg.PopupOK('Choose a source file, then a target file, click on a key, translate target, save. If a locale does not exist yet simply create a new empty json file.', 
