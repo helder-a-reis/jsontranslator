@@ -26,10 +26,10 @@ def saveTarget():
     saveDictToJSON(removeEmpties(targetDict), targetFile.get())
 
 # --------------------------------- Define Layout ---------------------------------
-keyList = sg.Listbox(values=[], enable_events=True, size=(40,20), key='-KEYS-', select_mode="LISTBOX_SELECT_MODE_SINGLE")
+keyList = sg.Listbox(values=[], enable_events=True, size=(50,30), key='-KEYS-', select_mode="LISTBOX_SELECT_MODE_SINGLE")
 
-sourceFile = sg.In(size=(40,1), enable_events=True, key='-SOURCE-')
-targetFile = sg.In(size=(40,1), enable_events=True, key='-TARGET-')
+sourceFile = sg.In(size=(60,1), enable_events=True, key='-SOURCE-')
+targetFile = sg.In(size=(60,1), enable_events=True, key='-TARGET-')
 header = [
     [sg.Text('Source file', size=(10, 1)), sourceFile, sg.FileBrowse(button_text='Choose', file_types=(('JSON Files', '*.json'),))],
     [sg.Text('Target file', size=(10, 1)), targetFile, sg.FileBrowse(button_text='Choose', file_types=(('JSON Files', '*.json'),))],
@@ -39,12 +39,12 @@ left_col = [[keyList]]
 
 sourceLocale = sg.Text(text='Source', key='-SOURCELOCALE-', size=(6, 1))
 targetLocale = sg.Text(text='Target', key='-TARGETLOCALE-', size=(6, 1))
-sourceText = sg.Multiline(key=('-SOURCETEXT-'), disabled=True, size=(30, 5))
-targetText = sg.Multiline(key=('-TARGETTEXT-'), size=(30, 5))
+sourceText = sg.Multiline(key=('-SOURCETEXT-'), disabled=True, size=(50, 8))
+targetText = sg.Multiline(key=('-TARGETTEXT-'), size=(50, 8))
 right_col = [
     [sourceLocale, sourceText],
-    [targetLocale, targetText, sg.Button(button_text='Save', enable_events=True, key='-SAVE-')],
-    [sg.Button(button_text='Save and Next', enable_events=True, key='-SAVEANDNEXT-')]
+    [targetLocale, targetText],
+    [sg.Button(button_text='Save', enable_events=True, key='-SAVE-'), sg.Button(button_text='Save and Next', enable_events=True, key='-SAVEANDNEXT-')]
     ]
 
 menu_def = [['Help', ['Usage', 'About', 'Github']]]
@@ -52,7 +52,7 @@ menu_def = [['Help', ['Usage', 'About', 'Github']]]
 layout = [
     [sg.Menu(menu_def)],
     [sg.Column(header)],
-    [sg.Column(left_col), sg.VSeperator(), sg.Column(right_col, vertical_alignment='top')]
+    [sg.Column(left_col), sg.VSeperator(), sg.Column(right_col, vertical_alignment='top', element_justification='center')]
     ]
 
 # --------------------------------- Create Window ---------------------------------
