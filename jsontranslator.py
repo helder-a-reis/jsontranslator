@@ -7,6 +7,8 @@ from terms import *
 # --- variables ---
 sourceDictFlat = {}
 targetDictFlat = {}
+unsavedChanges = False
+lastSelectedKey = None
 
 # ---- UI helper functions -----
 
@@ -17,19 +19,23 @@ def updateSource():
 def updateTarget():
     text = targetDictFlat.get(keyList.get()[0], '')
     targetText.update(value=targetDictFlat.get(keyList.get()[0], ''))
+    unsavedChange = False
+
+def clearTranslations():
+    sourceText.update('')
+    targetText.update('')
 
 def saveTarget():
     # update target dict
-    targetDictFlat[keyList.get()[0]]=targetText.get().rstrip()
+    targetDictFlat[lastSelectedKey]=targetText.get().rstrip()
     # save target file
     targetDict = jf.unflatten(targetDictFlat)
     saveDictToJSON(removeEmpties(targetDict), targetFile.get())
     
-
 # --------------------------------- Define Layout ---------------------------------
 
-sourceFile = sg.In(size=(60,1), enable_events=True, key='-SOURCE-')
-targetFile = sg.In(size=(60,1), enable_events=True, key='-TARGET-')
+sourceFile = sg.In(size=(60,1), enable_events=True, key='-SOURCE-', readonly=True)
+targetFile = sg.In(size=(60,1), enable_events=True, key='-TARGET-', readonly=True)
 header = [
     [sg.Text('Source file', size=(10, 1)), sourceFile, sg.FileBrowse(button_text='Choose', file_types=(('JSON Files', '*.json'),))],
     [sg.Text('Target file', size=(10, 1)), targetFile, sg.FileBrowse(button_text='Choose', file_types=(('JSON Files', '*.json'),))],
@@ -43,7 +49,7 @@ left_col = [[missingCheck],
 sourceLocale = sg.Text(text='Source', key='-SOURCELOCALE-', size=(6, 1))
 targetLocale = sg.Text(text='Target', key='-TARGETLOCALE-', size=(6, 1))
 sourceText = sg.Multiline(key=('-SOURCETEXT-'), disabled=True, size=(50, 8))
-targetText = sg.Multiline(key=('-TARGETTEXT-'), size=(50, 8))
+targetText = sg.Multiline(key=('-TARGETTEXT-'), size=(50, 8), enable_events=True)
 right_col = [
     [sourceLocale, sourceText],
     [targetLocale, targetText],
@@ -81,23 +87,35 @@ while True:
         targetDictFlat = jf.flatten(targetDict)
         targetLocale.update(value=getLocaleFromFileName(targetFile.get()), visible=True)
 
+    if event == '-TARGETTEXT-':
+        unsavedChanges = True
+
     # key on the list clicked
-    if event == '-KEYS-':
+    if event == '-KEYS-':       
+        if unsavedChanges:
+            saveChanges = sg.PopupYesNo('Save changes?', title='Unsaved changes')
+            if saveChanges == 'Yes':
+                saveTarget()
+            unsavedChanges = False
+
         # populate source
         updateSource()
         if targetFile.get() != '' :
             # populate target
             updateTarget()
             targetText.set_focus()
+        lastSelectedKey = keyList.get()[0]
     
     if event == '-MISSING-':
         if missingCheck.get() == 1:
             keyList.update(values=getKeysMissingTarget(sourceDictFlat, targetDictFlat))
         else:
             keyList.update(values=list(sourceDictFlat.keys()))
+        clearTranslations()
 
     if event == '-SAVE-':
         saveTarget()
+        unsavedChanges = False
 
     if event == '-SAVEANDNEXT-':
         saveTarget()
@@ -106,6 +124,7 @@ while True:
             keyList.update(set_to_index=currentIndex+1)
             updateSource()
             updateTarget()
+        unsavedChanges = False
 
     if event == 'Usage':
         sg.PopupOK('Choose a source file, then a target file, click on a key, translate target, save. If a locale does not exist yet simply create a new empty json file.', 
