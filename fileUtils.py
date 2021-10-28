@@ -19,13 +19,16 @@ def getLocaleFromFileName(fileName):
     return path.splitext(path.basename(fileName))[0]
 
 def exportToFile(sourceDict, targetDict, sourceLocale, targetLocale, onlyMissing=False):
-    targetFileName = sourceLocale + '_' + targetLocale + '.csv'
+    if onlyMissing:
+        targetFileName = sourceLocale + '_' + targetLocale + '_missing.csv'
+    else:    
+        targetFileName = sourceLocale + '_' + targetLocale + '.csv'
+
     fieldNames = ['key', sourceLocale, targetLocale]
     with open(targetFileName, 'w', newline='') as csvFile:
         writer = csv.DictWriter(csvFile, fieldnames=fieldNames)
         writer.writeheader()
         for key, source in sourceDict.items():
             target = targetDict.get(key, '')
-            if target != '' and onlyMissing:
-                break
-            writer.writerow({'key': key, sourceLocale: source, targetLocale: target})
+            if target == '' or (target != '' and not onlyMissing):                
+                writer.writerow({'key': key, sourceLocale: source, targetLocale: target})
