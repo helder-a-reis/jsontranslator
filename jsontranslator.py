@@ -53,11 +53,14 @@ targetText = sg.Multiline(key=('-TARGETTEXT-'), size=(50, 8), enable_events=True
 saveButton = sg.Button(button_text='Save', enable_events=True, key='-SAVE-')
 saveAndNextButton = sg.Button(button_text='Save and Next', enable_events=True, key='-SAVEANDNEXT-')
 autoSaveCheck = sg.Checkbox('Auto save changes as you type', enable_events=True, key='-AUTOSAVE-')
+exportButton = sg.Button(button_text="Export all to file", enable_events=True, key='-EXPORT-')
+exportMissingButton = sg.Button(button_text="Export missing translations", enable_events=True, key='-EXPORTMISSING-')
 right_col = [
     [sourceLocale, sourceText],
     [targetLocale, targetText],
     [saveButton, saveAndNextButton],
-    [autoSaveCheck]
+    [autoSaveCheck],
+    [exportButton, exportMissingButton]
     ]
 
 menu_def = [['Help', ['Usage', 'About', 'Github']]]
@@ -146,6 +149,12 @@ while True:
         else:
             saveButton.Update(disabled=False)
             saveAndNextButton.Update(disabled=False)
+
+    if event == '-EXPORT-':
+        exportToFile(sourceDictFlat, targetDictFlat, sourceLocale.get(), targetLocale.get())
+
+    if event == '-EXPORTMISSING-':
+        exportToFile(sourceDictFlat, targetDictFlat, sourceLocale.get(), targetLocale.get(), True)
 
     if event == 'Usage':
         sg.PopupOK('Choose a source file, then a target file, click on a key, translate target, save. If a locale does not exist yet simply create a new empty json file.', 
